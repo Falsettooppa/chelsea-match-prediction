@@ -1,78 +1,773 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chelsea FC Match Outcome Prediction System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      margin-bottom: 8px;
+      font-size: 26px;
+      color: #0b2c5f;
+    }
+
+    .header p {
+      font-size: 15px;
+      color: #555;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #0b2c5f;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 700px) {
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .btn {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      background-color: #0b2c5f;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #093067;
+    }
+
+    .result-box {
+      border-left: 5px solid #0b2c5f;
+      background: #f9fbff;
+      padding: 20px;
+      border-radius: 6px;
+    }
+
+    .result-box h3 {
+      margin-top: 0;
+      color: #0b2c5f;
+    }
+
+    .confidence {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .high { background: #d4edda; color: #155724; }
+    .medium { background: #fff3cd; color: #856404; }
+    .low { background: #f8d7da; color: #721c24; }
+
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      padding-left: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="header">
+      <h1>Chelsea FC Match Outcome Prediction System</h1>
+      <p>
+        A machine learning–based system for predicting match outcomes using
+        rolling performance indicators and betting odds.
+      </p>
+    </div>
+
+    {% if error %}
+      <div class="error"><strong>Error:</strong> {{ error }}</div>
+    {% endif %}
+
+    <div class="card">
+      <h2>Match Information</h2>
+
+      <form method="POST">
+
+        <label>Match Location</label>
+        <select name="is_home" required>
+          <option value="1">Chelsea Playing at Home</option>
+          <option value="0">Chelsea Playing Away</option>
+        </select>
+
+        <label>Betting Odds</label>
+        <div class="grid-3">
+          <input name="odds_win" type="number" step="0.01" placeholder="Chelsea Win (e.g. 1.75)" required>
+          <input name="odds_draw" type="number" step="0.01" placeholder="Draw (e.g. 3.80)" required>
+          <input name="odds_loss" type="number" step="0.01" placeholder="Chelsea Loss (e.g. 5.25)" required>
+        </div>
+
+        <label>Last 5 Chelsea Match Scorelines (Chelsea–Opponent)</label>
+        <input name="last5_scores" placeholder="e.g. 2-1, 0-0, 1-2, 3-0, 1-1" required>
+
+        <button class="btn" type="submit">Predict Match Outcome</button>
+      </form>
+    </div>
+
+    {% if result %}
+    <div class="card result-box">
+      <h3>Prediction Result</h3>
+
+      <p><strong>Predicted Outcome:</strong> {{ result }}</p>
+
+      {% if confidence %}
+        <span class="confidence 
+          {% if confidence == 'High' %}high
+          {% elif confidence == 'Medium' %}medium
+          {% else %}low{% endif %}">
+          Confidence Level: {{ confidence }}
+        </span>
+      {% endif %}
+
+      <p style="margin-top:16px;"><strong>Prediction Probabilities:</strong></p>
+      <ul>
+        {% for k, v in probs.items() %}
+          <li>{{ k }}: {{ v }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+  </div>
+</body>
+</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Chelsea Match Outcome Predictor</title>
+  <meta charset="UTF-8">
+  <title>Chelsea FC · Match Prediction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    body { font-family: Arial, sans-serif; max-width: 900px; margin: 30px auto; padding: 0 16px; }
-    .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; margin: 14px 0; }
-    label { display:block; margin-top: 10px; font-weight: 600; }
-    input, select { width: 100%; padding: 10px; margin-top: 6px; border: 1px solid #ccc; border-radius: 8px; }
-    button { margin-top: 14px; padding: 10px 14px; border: 0; border-radius: 8px; cursor: pointer; }
-    .ok { background: #0b5; color: #fff; }
-    .err { background: #c00; color: #fff; padding: 10px; border-radius: 8px; }
-    .row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-    @media (max-width: 700px) { .row { grid-template-columns: 1fr; } }
-    code { background: #f5f5f5; padding: 2px 6px; border-radius: 6px; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0a1f44;
+      --blue:   #034694;
+      --blue-l: #1a5baa;
+      --gold:   #c8a96e;
+      --white:  #ffffff;
+      --off:    #f5f7fa;
+      --border: #e2e8f0;
+      --text:   #1e293b;
+      --muted:  #64748b;
+      --win-bg: #dcfce7; --win: #166534;
+      --draw-bg:#fef9c3; --draw: #92400e;
+      --loss-bg:#fee2e2; --loss: #991b1b;
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--off);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      padding: 52px 24px 44px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 50%, rgba(255,255,255,0.04) 0%, transparent 50%),
+        radial-gradient(circle at 85% 20%, rgba(200,169,110,0.08) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    /* pitch arc decoration */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 50%; transform: translateX(-50%);
+      width: 280px; height: 140px;
+      border: 2px solid rgba(255,255,255,0.05);
+      border-bottom: none;
+      border-radius: 140px 140px 0 0;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(30px, 6vw, 46px);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 em { font-style: normal; color: var(--gold); }
+
+    .hero p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
+      max-width: 460px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 36px 20px 64px;
+    }
+
+    /* ── Error ── */
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-left: 4px solid #ef4444;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      color: #991b1b;
+    }
+
+    .alert svg { flex-shrink: 0; margin-top: 2px; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.04);
+      margin-bottom: 20px;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      background: #fafbfd;
+    }
+
+    .head-icon {
+      width: 32px; height: 32px;
+      border-radius: 9px;
+      background: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .head-icon svg { fill: white; }
+
+    .card-head h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+
+    .card-body { padding: 24px; }
+
+    /* ── Form elements ── */
+    .field { margin-bottom: 22px; }
+    .field:last-of-type { margin-bottom: 0; }
+
+    .field > label, .field-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--off);
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+    }
+
+    input:focus {
+      border-color: var(--blue);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(3,70,148,0.1);
+    }
+
+    input::placeholder { color: #94a3b8; }
+
+    /* Location toggle */
+    .loc-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .loc-toggle input[type="radio"] { display: none; }
+
+    .loc-toggle label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 12px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      background: var(--off);
+      cursor: pointer;
+      transition: all 0.18s;
+      margin: 0;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .loc-toggle label:first-of-type { border-right: 1px solid var(--border); }
+
+    .loc-toggle input[type="radio"]:checked + label {
+      background: var(--blue);
+      color: white;
+    }
+
+    /* Odds grid */
+    .odds-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 540px) { .odds-grid { grid-template-columns: 1fr; } }
+
+    .odds-cell { text-align: center; }
+
+    .odds-cell label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .odds-cell input { text-align: center; font-weight: 700; font-size: 15px; }
+
+    .odds-pill {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .odds-pill.win  { background: var(--win-bg);  color: var(--win); }
+    .odds-pill.draw { background: var(--draw-bg); color: var(--draw); }
+    .odds-pill.loss { background: var(--loss-bg); color: var(--loss); }
+
+    /* Submit */
+    .btn-submit {
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+      box-shadow: 0 4px 14px rgba(3,70,148,0.28);
+    }
+
+    .btn-submit:hover {
+      background: var(--blue-l);
+      box-shadow: 0 6px 22px rgba(3,70,148,0.38);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active { transform: none; }
+
+    /* ── Result card ── */
+    .result-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 28px rgba(3,70,148,0.1);
+      margin-bottom: 20px;
+    }
+
+    .result-hero {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      padding: 24px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .result-hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 6px;
+    }
+
+    .result-outcome {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: 0.02em;
+    }
+
+    .conf-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .conf-badge.high   { background: var(--win-bg);  color: var(--win); }
+    .conf-badge.medium { background: var(--draw-bg); color: var(--draw); }
+    .conf-badge.low    { background: var(--loss-bg); color: var(--loss); }
+
+    .result-body { padding: 24px; background: white; }
+
+    .prob-heading {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .prob-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .prob-row:last-child { margin-bottom: 0; }
+
+    .prob-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      min-width: 88px;
+      flex-shrink: 0;
+    }
+
+    .prob-track {
+      flex: 1;
+      height: 8px;
+      background: var(--off);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .prob-fill {
+      height: 100%;
+      border-radius: 4px;
+    }
+
+    .prob-fill.win  { background: #22c55e; }
+    .prob-fill.draw { background: #f59e0b; }
+    .prob-fill.loss { background: #ef4444; }
+    .prob-fill.default { background: var(--blue); }
+
+    .prob-pct {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      min-width: 44px;
+      text-align: right;
+    }
+
+    /* ── Footnote ── */
+    .footnote {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      line-height: 1.7;
+    }
   </style>
 </head>
+
 <body>
-  <h2>Chelsea FC Match Outcome Predictor</h2>
-  <p>Enter match context (home/away), betting odds, and last 5 Chelsea scorelines (Chelsea perspective).</p>
 
-  {% if error %}
-    <div class="err"><strong>Error:</strong> {{ error }}</div>
-  {% endif %}
+  <div class="hero">
+    <div class="hero-badge"><span class="dot"></span> ML Prediction System</div>
+    <h1>Chelsea FC<br><em>Match Outcome</em> Predictor</h1>
+    <p>Machine learning–based predictions using rolling performance indicators and live betting odds.</p>
+  </div>
 
-  <div class="card">
-    <form method="POST">
-      <label>Is Chelsea Home?</label>
-      <select name="is_home" required>
-        <option value="1">Yes (Home)</option>
-        <option value="0">No (Away)</option>
-      </select>
+  <div class="container">
 
-      <div class="row">
-        <div>
-          <label>Odds (Chelsea Win)</label>
-          <input name="odds_win" type="number" step="0.01" placeholder="e.g. 1.75" required />
+    {% if error %}
+    <div class="alert">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#ef4444"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+      <span><strong>Error:</strong> {{ error }}</span>
+    </div>
+    {% endif %}
+
+    <!-- Form -->
+    <div class="card">
+      <div class="card-head">
+        <div class="head-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
         </div>
-        <div>
-          <label>Odds (Draw)</label>
-          <input name="odds_draw" type="number" step="0.01" placeholder="e.g. 3.80" required />
-        </div>
-        <div>
-          <label>Odds (Chelsea Loss)</label>
-          <input name="odds_loss" type="number" step="0.01" placeholder="e.g. 5.25" required />
-        </div>
+        <h2>Match Information</h2>
       </div>
 
-      <label>Last 5 Chelsea Scorelines (Chelsea-Opponent)</label>
-      <input name="last5_scores" placeholder='e.g. 2-1,0-0,1-2,3-0,1-1' required />
+      <div class="card-body">
+        <form method="POST">
 
-      <button class="ok" type="submit">Predict Outcome</button>
-    </form>
+          <!-- Location -->
+          <div class="field">
+            <span class="field-label">Match Location</span>
+            <div class="loc-toggle">
+              <input type="radio" name="is_home" id="home" value="1" checked>
+              <label for="home">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                Chelsea at Home
+              </label>
+              <input type="radio" name="is_home" id="away" value="0">
+              <label for="away">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></svg>
+                Chelsea Away
+              </label>
+            </div>
+          </div>
+
+          <!-- Odds -->
+          <div class="field">
+            <span class="field-label">Betting Odds</span>
+            <div class="odds-grid">
+              <div class="odds-cell">
+                <label for="odds_win">Chelsea Win</label>
+                <input id="odds_win" name="odds_win" type="number" step="0.01" placeholder="1.75" required>
+                <span class="odds-pill win">Win</span>
+              </div>
+              <div class="odds-cell">
+                <label for="odds_draw">Draw</label>
+                <input id="odds_draw" name="odds_draw" type="number" step="0.01" placeholder="3.80" required>
+                <span class="odds-pill draw">Draw</span>
+              </div>
+              <div class="odds-cell">
+                <label for="odds_loss">Chelsea Loss</label>
+                <input id="odds_loss" name="odds_loss" type="number" step="0.01" placeholder="5.25" required>
+                <span class="odds-pill loss">Loss</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Last 5 scores -->
+          <div class="field">
+            <label for="last5_scores">
+              Last 5 Chelsea Match Scorelines
+              <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px">(Chelsea – Opponent)</span>
+            </label>
+            <input id="last5_scores" name="last5_scores" type="text" placeholder="e.g. 2-1, 0-0, 1-2, 3-0, 1-1" required>
+          </div>
+
+          <button class="btn-submit" type="submit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42A6.92 6.92 0 0 1 19 12c0 3.87-3.13 7-7 7A7 7 0 0 1 5 12c0-2.28 1.09-4.3 2.77-5.59L6.36 5A9 9 0 0 0 3 12a9 9 0 0 0 18 0c0-2.74-1.23-5.18-3.17-6.83z"/></svg>
+            Predict Match Outcome
+          </button>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- Result -->
+    {% if result %}
+    <div class="result-card">
+      <div class="result-hero">
+        <div>
+          <p class="result-hero-label">Predicted Outcome</p>
+          <div class="result-outcome">{{ result }}</div>
+        </div>
+        {% if confidence %}
+        <span class="conf-badge
+          {% if confidence == 'High' %}high
+          {% elif confidence == 'Medium' %}medium
+          {% else %}low{% endif %}">
+          {% if confidence == 'High' %}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          {% else %}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+          {% endif %}
+          {{ confidence }} Confidence
+        </span>
+        {% endif %}
+      </div>
+
+      <div class="result-body">
+        <p class="prob-heading">Probability Breakdown</p>
+        {% for k, v in probs.items() %}
+        <div class="prob-row">
+          <span class="prob-label">{{ k }}</span>
+          <div class="prob-track">
+            <div class="prob-fill
+              {% if 'Win' in k %}win
+              {% elif 'Draw' in k %}draw
+              {% elif 'Loss' in k or 'Lose' in k %}loss
+              {% else %}default{% endif %}"
+              style="width: {{ v }}%">
+            </div>
+          </div>
+          <span class="prob-pct">{{ v }}%</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <p class="footnote">
+      Predictions are model-generated estimates based on historical data and market signals.<br>
+      Not financial or betting advice · For analytical purposes only.
+    </p>
+
   </div>
-
-  {% if result %}
-  <div class="card">
-    <h3>Prediction: {{ result }}</h3>
-    <p><strong>Prediction Confidence:</strong> {{ confidence }}</p>
-    <p><strong>Probabilities:</strong></p>
-    <ul>
-      {% for k,v in probs.items() %}
-        <li>{{ k }}: {{ v }}</li>
-      {% endfor %}
-    </ul>
-
-    <p><strong>Features used:</strong></p>
-    <ul>
-      {% for k,v in used.items() %}
-        <li><code>{{ k }}</code>: {{ v }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% endif %}
 </body>
 </html>
