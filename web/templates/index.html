@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Chelsea Match Outcome Predictor</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 30px auto; padding: 0 16px; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; margin: 14px 0; }
+    label { display:block; margin-top: 10px; font-weight: 600; }
+    input, select { width: 100%; padding: 10px; margin-top: 6px; border: 1px solid #ccc; border-radius: 8px; }
+    button { margin-top: 14px; padding: 10px 14px; border: 0; border-radius: 8px; cursor: pointer; }
+    .ok { background: #0b5; color: #fff; }
+    .err { background: #c00; color: #fff; padding: 10px; border-radius: 8px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    @media (max-width: 700px) { .row { grid-template-columns: 1fr; } }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h2>Chelsea FC Match Outcome Predictor</h2>
+  <p>Enter match context (home/away), betting odds, and last 5 Chelsea scorelines (Chelsea perspective).</p>
+
+  {% if error %}
+    <div class="err"><strong>Error:</strong> {{ error }}</div>
+  {% endif %}
+
+  <div class="card">
+    <form method="POST">
+      <label>Is Chelsea Home?</label>
+      <select name="is_home" required>
+        <option value="1">Yes (Home)</option>
+        <option value="0">No (Away)</option>
+      </select>
+
+      <div class="row">
+        <div>
+          <label>Odds (Chelsea Win)</label>
+          <input name="odds_win" type="number" step="0.01" placeholder="e.g. 1.75" required />
+        </div>
+        <div>
+          <label>Odds (Draw)</label>
+          <input name="odds_draw" type="number" step="0.01" placeholder="e.g. 3.80" required />
+        </div>
+        <div>
+          <label>Odds (Chelsea Loss)</label>
+          <input name="odds_loss" type="number" step="0.01" placeholder="e.g. 5.25" required />
+        </div>
+      </div>
+
+      <label>Last 5 Chelsea Scorelines (Chelsea-Opponent)</label>
+      <input name="last5_scores" placeholder='e.g. 2-1,0-0,1-2,3-0,1-1' required />
+
+      <button class="ok" type="submit">Predict Outcome</button>
+    </form>
+  </div>
+
+  {% if result %}
+  <div class="card">
+    <h3>Prediction: {{ result }}</h3>
+    <p><strong>Prediction Confidence:</strong> {{ confidence }}</p>
+    <p><strong>Probabilities:</strong></p>
+    <ul>
+      {% for k,v in probs.items() %}
+        <li>{{ k }}: {{ v }}</li>
+      {% endfor %}
+    </ul>
+
+    <p><strong>Features used:</strong></p>
+    <ul>
+      {% for k,v in used.items() %}
+        <li><code>{{ k }}</code>: {{ v }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</body>
+</html>
