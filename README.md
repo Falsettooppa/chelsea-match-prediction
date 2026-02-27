@@ -104,6 +104,13 @@ http://127.0.0.1:5000
 10. Deployment
 
 The web application was deployed using Render, allowing public access to the prediction system. Deployment was carried out using a GitHub repository, a requirements.txt file, and a Procfile to define the application start command.
+## Live Deployment
+
+The application is publicly accessible at:
+
+https://chelsea-match-prediction.onrender.com
+
+
 
 11. Limitations and Future Work
 
